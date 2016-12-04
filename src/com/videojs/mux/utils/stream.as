@@ -1,6 +1,8 @@
 package com.videojs.mux.utils {
 
-  public class Stream{
+  import flash.events.EventDispatcher;
+
+  public class Stream extends EventDispatcher {
     private var listeners:Object;
 
     public function Stream() {}
@@ -28,7 +30,7 @@ package com.videojs.mux.utils {
      * @param listener {function} a function previously registered for this
      * type of event through `on`
      */
-    public function off(type:String, listener:Function):void {
+    public function off(type:String, listener:Function):Boolean {
       var index:int;
       if (!listeners[type]) {
         return false;
@@ -44,11 +46,11 @@ package com.videojs.mux.utils {
      * arguments to this function are passed as parameters to event listeners.
      * @param type {string} the event name
      */
-    public function trigger(type, ... arguments):void {
+    public function trigger(type:String, ... arguments):void {
       var callbacks:Object;
       var i:int;
       var length:int;
-      var args:Array = new Array():
+      var args:Array = new Array();
 
       callbacks = listeners[type];
       if (!callbacks) {
@@ -93,11 +95,11 @@ package com.videojs.mux.utils {
      * @see http://nodejs.org/api/stream.html#stream_readable_pipe_destination_options
      */
     public function pipe(destination:Stream):Stream {
-      this.addEventListener('data', function(data:Object) {
+      this.addEventListener('data', function(data:Object):void {
         destination.push(data);
       });
 
-      this.addEventListener('done', function(flushSource:Stream) {
+      this.addEventListener('done', function(flushSource:Stream):void {
         destination.flush(flushSource);
       });
 

@@ -81,8 +81,8 @@ package com.videojs.mux.flv {
    * events. The output of this stream can be fed to flash.
    */
   public class AudioSegmentStream extends Stream {
-    private adtsFrames:Array = [];
-    private oldExtraData:Object;
+    private var adtsFrames:Array = [];
+    private var oldExtraData:Object;
 
     public function AudioSegmentStream(track:Object) {
       this.init();
@@ -220,7 +220,7 @@ package com.videojs.mux.flv {
 
     private function flush():void {
       // TODO what is it?
-      var currentNal:Object:
+      var currentNal:Object;
       var tags:Array = [];
 
       // Throw away nalUnits at the start of the byte stream until we find
@@ -411,7 +411,7 @@ package com.videojs.mux.flv {
       // TODO Uint8
       var headBytes:ByteArray = new ByteArray(3 + 1 + 1 + 4);
       // TODO DataView
-      var head:DataView = new DataView(headBytes.buffer),
+      var head:DataView = new DataView(headBytes.buffer);
       var metadata:FlvTag;
       // TODO Uint8Array
       var result:ByteArray;
