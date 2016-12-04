@@ -1,5 +1,7 @@
 package com.videojs.mux.codecs{
 
+  import flash.utils.ByteArray;
+
   import com.videojs.mux.utils.Stream;
   import com.videojs.mux.utils.ExpGolomb;
   import com.videojs.mux.codecs.NalByteStream;

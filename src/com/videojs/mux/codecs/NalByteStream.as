@@ -1,4 +1,7 @@
 package com.videojs.mux.codecs {
+
+  import flash.utils.ByteArray;
+
   /**
    * Accepts a NAL unit byte stream and unpacks the embedded NAL units.
    */

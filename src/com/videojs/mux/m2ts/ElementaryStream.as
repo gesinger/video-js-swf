@@ -1,5 +1,7 @@
 package com.videojs.mux.m2ts {
 
+  import flash.utils.ByteArray;
+
   import com.videojs.mux.utils.Stream;
   import com.videojs.mux.m2ts.CaptionStream;
   import com.videojs.mux.m2ts.TimestampRolloverStream;

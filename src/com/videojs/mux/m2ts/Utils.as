@@ -1,4 +1,7 @@
 package com.videojs.mux.m2ts {
+
+  import flash.utils.ByteArray;
+
   private static var MP2T_PACKET_LENGTH:int = 188; // bytes
 
   // Supplemental enhancement information (SEI) NAL units have a

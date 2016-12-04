@@ -1,5 +1,7 @@
 package com.videojs.mux.codecs{
 
+  import flash.utils.ByteArray;
+
   import com.videojs.mux.utils.Stream;
 
   /*

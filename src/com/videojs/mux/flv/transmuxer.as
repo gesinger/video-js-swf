@@ -1,5 +1,7 @@
 package com.videojs.mux.flv {
 
+  import flash.utils.ByteArray;
+
   import com.videojs.mux.utils.Stream;
   import com.videojs.mux.flv.FlvTag;
   import com.videojs.mux.flv.Utils;
