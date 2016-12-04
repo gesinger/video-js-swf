@@ -12,7 +12,7 @@ package com.videojs.mux.codecs {
       this.init();
     }
 
-    public function push(data:Object):void {
+    override public function push(data:Object):void {
       var swapBuffer:ByteArray;
 
       if (!buffer) {
@@ -96,7 +96,7 @@ package com.videojs.mux.codecs {
       syncPoint = 0;
     }
 
-    public function flush():void {
+    override public function flush():void {
       // deliver the last buffered NAL unit
       if (buffer && buffer.byteLength > 3) {
         this.trigger('data', buffer.subarray(syncPoint + 3));

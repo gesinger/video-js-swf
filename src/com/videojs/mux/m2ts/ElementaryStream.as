@@ -113,7 +113,7 @@ package com.videojs.mux.m2ts {
     }
 
     // TODO ugh
-    public function push(data:Object):void {
+    override public function push(data:Object):void {
       ({
         pat: function() {
           // we have to wait for the PMT to arrive as well before we
@@ -195,7 +195,7 @@ package com.videojs.mux.m2ts {
      * clear that no additional data is forthcoming, calling this method
      * will flush the buffered packets.
      */
-    public function flush():void {
+    override public function flush():void {
       // !!THIS ORDER IS IMPORTANT!!
       // video first then audio
       flushStream(video, 'video');

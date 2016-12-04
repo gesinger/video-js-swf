@@ -28,7 +28,7 @@ package com.videojs.mux.flv {
     }
 
     // Take output from multiple
-    public function push(output:Object):void {
+    override public function push(output:Object):void {
       // buffer incoming captions until the associated video segment
       // finishes
       if (output.text) {
@@ -51,7 +51,7 @@ package com.videojs.mux.flv {
       }
     }
 
-    public function flush(flushSource:Stream):void {
+    override public function flush(flushSource:Stream):void {
       var id3:Object;
       var caption:Object;
       var i:int;

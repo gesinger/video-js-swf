@@ -15,7 +15,7 @@ package com.videojs.mux.m2ts {
       this.init();
     }
 
-    public function push(data:Object):void {
+    override public function push(data:Object):void {
       if (data.type !== type_) {
         return;
       }
@@ -33,7 +33,7 @@ package com.videojs.mux.m2ts {
       this.trigger('data', data);
     }
 
-    public function flush():void {
+    override public function flush():void {
       referenceDTS = lastDTS;
       this.trigger('done');
     }

@@ -122,12 +122,12 @@ package com.videojs.mux.flv {
     }
 
     // feed incoming data to the front of the parsing pipeline
-    public function push(data:Object):void {
+    override public function push(data:Object):void {
       packetStream.push(data);
     }
 
     // flush any buffered data
-    public function flush():void {
+    override public function flush():void {
       // Start at the top of the pipeline and flush all pending work
       packetStream.flush();
     }

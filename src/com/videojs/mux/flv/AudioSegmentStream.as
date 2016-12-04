@@ -16,7 +16,7 @@ package com.videojs.mux.flv {
       this.init();
     }
 
-    public function push(data:Object):void {
+    override public function push(data:Object):void {
       Utils.collectTimelineInfo(track, data);
 
       if (track && track.channelcount === undefined) {
@@ -37,7 +37,7 @@ package com.videojs.mux.flv {
       adtsFrames.push(data);
     }
 
-    public function flush():void {
+    override public function flush():void {
       var currentFrame:Object;
       var adtsFrame:FlvTag;
       var lastMetaPts:int;

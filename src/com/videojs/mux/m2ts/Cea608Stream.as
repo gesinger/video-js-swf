@@ -24,7 +24,7 @@ package com.videojs.mux.m2ts {
       this.init();
     }
 
-    public function push(packet:Object):void {
+    override public function push(packet:Object):void {
       // Ignore other channels
       if (packet.type !== 0) {
         return;

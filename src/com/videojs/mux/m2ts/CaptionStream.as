@@ -19,7 +19,7 @@ package com.videojs.mux.m2ts {
       this.field1_.on('done', this.trigger.bind(this, 'done'));
     }
 
-    public function push(event:Object):void {
+    override public function push(event:Object):void {
       var sei:Object;
       var userData:Array;
 
@@ -48,7 +48,7 @@ package com.videojs.mux.m2ts {
       captionPackets_ = captionPackets_.concat(Utils.parseCaptionPackets(event.pts, userData));
     }
 
-    public function flush():void {
+    override public function flush():void {
       // make sure we actually parsed captions before proceeding
       if (!captionPackets_.length) {
         field1_.flush();

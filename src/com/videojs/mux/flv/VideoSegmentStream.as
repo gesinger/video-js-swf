@@ -36,7 +36,7 @@ package com.videojs.mux.flv {
       h264Frame = null;
     }
 
-    private function push(data:Object):void {
+    override public function push(data:Object):void {
       Utils.collectTimelineInfo(track, data);
 
       data.pts = Math.round(data.pts / 90);
@@ -46,7 +46,7 @@ package com.videojs.mux.flv {
       nalUnits.push(data);
     }
 
-    private function flush():void {
+    override public function flush():void {
       // TODO what is it?
       var currentNal:Object;
       var tags:Array = [];

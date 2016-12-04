@@ -79,7 +79,7 @@ package com.videojs.mux.codecs{
       });
     }
 
-    public function push(packet:Object):void {
+    override public function push(packet:Object):void {
       if (packet.type !== 'video') {
         return;
       }
@@ -91,7 +91,7 @@ package com.videojs.mux.codecs{
     };
 
 
-    public function flush():void {
+    override public function flush():void {
       nalByteStream.flush();
     };
 

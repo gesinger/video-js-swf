@@ -110,7 +110,7 @@ package com.videojs.mux.m2ts {
      * Deliver a new MP2T packet to the stream.
      */
     // TODO ByteArray?
-    public function push(packet:ByteArray):void {
+    override public function push(packet:ByteArray):void {
       var result:Object = {};
       var offset:int = 4;
 

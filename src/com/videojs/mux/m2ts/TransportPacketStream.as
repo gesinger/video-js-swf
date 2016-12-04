@@ -21,7 +21,7 @@ package com.videojs.mux.m2ts {
 
    // Deliver new bytes to the stream.
    // TODO ByteArray?
-    public function push(bytes:ByteArray):void {
+    override public function push(bytes:ByteArray):void {
       var startIndex:int = 0;
       var endIndex:int = Utils.MP2T_PACKET_LENGTH;
       // TODO Uint8Array
@@ -65,7 +65,7 @@ package com.videojs.mux.m2ts {
       }
     }
 
-    public function flush():void {
+    override public function flush():void {
       // If the buffer contains a whole packet when we are being flushed, emit it
       // and empty the buffer. Otherwise hold onto the data because it may be
       // important for decoding the next segment

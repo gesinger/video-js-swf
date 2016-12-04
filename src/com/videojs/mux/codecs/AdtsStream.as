@@ -33,7 +33,7 @@ package com.videojs.mux.codecs{
       this.init();
     }
 
-    public function push(packet:Object):void {
+    override public function push(packet:Object):void {
       var i:int = 0;
       var frameNum:int = 0;
       var frameLength:int;
@@ -122,7 +122,7 @@ package com.videojs.mux.codecs{
       }
     }
 
-    public function flush():void {
+    override public function flush():void {
       this.trigger('done');
     }
   }
