@@ -26,5 +26,7 @@ package com.videojs.structs{
         public static const ON_LEVEL_SWITCH:String = "levelswitch";
 
         public static const ON_TEXT_DATA:String = "textdata";
+
+        public static const ON_ID3_UPDATED:String = "id3updated";
     }
 }

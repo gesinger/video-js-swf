@@ -56,6 +56,7 @@ package com.videojs.providers{
           _model = VideoJSModel.getInstance();
           _metadata = {};
           _hls.addEventListener(HLSEvent.PLAYBACK_COMPLETE,_completeHandler);
+          _hls.addEventListener(HLSEvent.ID3_UPDATED,_id3UpdatedHandler);
           _hls.addEventListener(HLSEvent.ERROR,_errorHandler);
           _hls.addEventListener(HLSEvent.MANIFEST_LOADED,_manifestHandler);
           _hls.addEventListener(HLSEvent.MEDIA_TIME,_mediaTimeHandler);
@@ -76,6 +77,10 @@ package com.videojs.providers{
             _looping = true;
             load();
           }
+        };
+
+        private function _id3UpdatedHandler(event:HLSEvent):void {
+          _model.broadcastEventExternally(ExternalEventName.ON_ID3_UPDATED, event.ID3Data);
         };
 
         private function _errorHandler(event:HLSEvent):void {
@@ -107,7 +112,7 @@ package com.videojs.providers{
           _position = event.mediatime.position;
           _bufferedTime = event.mediatime.buffer+event.mediatime.position;
           _backBufferedTime = event.mediatime.position - event.mediatime.backbuffer;
-          
+
           if(event.mediatime.duration != _duration) {
             _duration = event.mediatime.duration;
             _model.broadcastEventExternally(ExternalEventName.ON_DURATION_CHANGE, _duration);
@@ -256,7 +261,7 @@ package com.videojs.providers{
         public function get networkState():int {
           return _networkState;
         }
-        
+
        /**
          * Should return an array of normalized time ranges currently
          * buffered of the media, in seconds.
