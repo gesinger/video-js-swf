@@ -21,6 +21,8 @@ package com.videojs.providers{
   import org.mangui.hls.utils.Log;
   import org.mangui.hls.utils.Params2Settings;
 
+  import by.blooddy.crypto.Base64;
+
   public class HLSProvider implements IProvider {
 
         private var _loop:Boolean = false;
@@ -51,7 +53,7 @@ package com.videojs.providers{
         private var _backBufferedTime:Number = 0;
 
         public function HLSProvider() {
-          Log.info("https://github.com/mangui/flashls/releases/tag/v0.4.1.1");
+          Log.info("https://github.com/mangui/flashls/releases/tag/v0.4.4.22");
           _hls = new HLS();
           _model = VideoJSModel.getInstance();
           _metadata = {};
@@ -63,6 +65,7 @@ package com.videojs.providers{
           _hls.addEventListener(HLSEvent.PLAYBACK_STATE,_playbackStateHandler);
           _hls.addEventListener(HLSEvent.SEEK_STATE,_seekStateHandler);
           _hls.addEventListener(HLSEvent.LEVEL_SWITCH,_levelSwitchHandler);
+          _hls.addEventListener(HLSEvent.CAPTION_DATA, _onCaptionDataHandler);
         }
 
         private function _completeHandler(event:HLSEvent):void {
@@ -192,6 +195,20 @@ package com.videojs.providers{
             var height:Number = _hls.levels[levelIndex].height;
             Log.info("HLSProvider: new level index " + levelIndex + " bitrate=" + bitrate + ", width=" + width + ", height=" + height);
             _model.broadcastEventExternally(ExternalEventName.ON_LEVEL_SWITCH, {levelIndex: levelIndex, bitrate: bitrate, width: width, height: height});
+        }
+
+        private function _onCaptionDataHandler(event:HLSEvent):void {
+          var captionData:Array = event.captionData;
+          var external:Array = [];
+
+          for (var i: uint = 0; i < captionData.length; i++) {
+            external.push({
+              pos: captionData[i].pos,
+              data: Base64.encode(captionData[i].data)
+            });
+          }
+
+          _model.broadcastEventExternally(ExternalEventName.ON_CAPTION_DATA, external);
         }
 
         private function _onFrame(event:Event):void
