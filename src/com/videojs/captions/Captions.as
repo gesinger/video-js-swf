@@ -72,7 +72,7 @@ package com.videojs.captions {
       return String.fromCharCode(code);
     }
 
-    public function Captions(type:String, userData:ByteArray):void {
+    public function push(type:String, userData:ByteArray):void {
       // parse out CC data packets and save them for later
       var captionPackets:Array = parseCaptionPackets(userData);
 
@@ -227,6 +227,8 @@ package com.videojs.captions {
 
     // Mode Implementations
 
+    private var full: String = '';
+
     // TODO pts
     public function popOn(char0:int, char1:int):void {
       var baseRow:String = nonDisplayed_[BOTTOM_ROW];
@@ -235,7 +237,8 @@ package com.videojs.captions {
       baseRow += getCharFromCode(char0);
       baseRow += getCharFromCode(char1);
       nonDisplayed_[BOTTOM_ROW] = baseRow;
-      Log.info('POP ON: ' + nonDisplayed_[BOTTOM_ROW]);
+      full += nonDisplayed_[BOTTOM_ROW];
+      Log.info('FULL: ' + full);
     }
 
     // TODO pts

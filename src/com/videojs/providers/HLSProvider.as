@@ -64,7 +64,7 @@ package com.videojs.providers{
           _hls.addEventListener(HLSEvent.PLAYBACK_STATE,_playbackStateHandler);
           _hls.addEventListener(HLSEvent.SEEK_STATE,_seekStateHandler);
           _hls.addEventListener(HLSEvent.LEVEL_SWITCH,_levelSwitchHandler);
-          _hls.addEventListener(HLSEvent.CAPTION_DEMUX, _onCaptionDemuxHandler);
+          _hls.addEventListener(HLSEvent.CAPTION_DATA, _onCaptionDataHandler);
         }
 
         private function _completeHandler(event:HLSEvent):void {
@@ -192,29 +192,18 @@ package com.videojs.providers{
             _model.broadcastEventExternally(ExternalEventName.ON_LEVEL_SWITCH, {levelIndex: levelIndex, bitrate: bitrate, width: width, height: height});
         }
 
-        private function _onCaptionHandler(event:HLSEvent):void {
-          var captionData:Object = event.captionData;
+        private function _onCaptionDataHandler(event:HLSEvent):void {
+          var captionData:Array = event.captionData;
+          var external:Array = [];
 
-          var data: ByteArray = Base64.decode(captionData.data);
-          var userData: ByteArray = new ByteArray();
-          data.position = 4; // uint length used for onCaptionInfo event
-          data.readBytes(userData);
+          for (var i: uint = 0; i < captionData.length; i++) {
+            external.push({
+              pos: captionData[i].pos,
+              data: Base64.encode(captionData[i].data)
+            });
+          }
 
-          // _captions.push(captionData.type, userData);
-        }
-
-        private function _onCaptionDemuxHandler(event:HLSEvent):void {
-          var captionData:Object = event.captionData;
-
-          var data: ByteArray = Base64.decode(captionData.data);
-          var userData: ByteArray = new ByteArray();
-          data.position = 4; // uint length used for onCaptionInfo event
-          data.readBytes(userData);
-
-          _model.broadcastEventExternally(ExternalEventName.ON_CAPTION_DEMUX, {
-            pts: captionData.pts,
-            userData: Base64.encode(userData)
-          });
+          _model.broadcastEventExternally(ExternalEventName.ON_CAPTION_DATA, external);
         }
 
         private function _onFrame(event:Event):void

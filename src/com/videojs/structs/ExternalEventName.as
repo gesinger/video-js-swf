@@ -27,6 +27,6 @@ package com.videojs.structs{
 
         public static const ON_TEXT_DATA:String = "textdata";
 
-        public static const ON_CAPTION_DEMUX:String = "captiondemux";
+        public static const ON_CAPTION_DATA:String = "captiondata";
     }
 }
