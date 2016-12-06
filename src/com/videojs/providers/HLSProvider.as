@@ -11,7 +11,6 @@ package com.videojs.providers{
   import com.videojs.structs.ExternalEventName;
   import com.videojs.structs.ReadyState;
   import com.videojs.structs.NetworkState;
-  import com.videojs.captions.Captions;
 
   import org.mangui.hls.HLS;
   import org.mangui.hls.event.HLSEvent;
@@ -22,7 +21,7 @@ package com.videojs.providers{
   import org.mangui.hls.utils.Log;
   import org.mangui.hls.utils.Params2Settings;
 
-  import com.videojs.Base64;
+  import by.blooddy.crypto.Base64;
 
   public class HLSProvider implements IProvider {
 
@@ -65,7 +64,7 @@ package com.videojs.providers{
           _hls.addEventListener(HLSEvent.PLAYBACK_STATE,_playbackStateHandler);
           _hls.addEventListener(HLSEvent.SEEK_STATE,_seekStateHandler);
           _hls.addEventListener(HLSEvent.LEVEL_SWITCH,_levelSwitchHandler);
-          _hls.addEventListener(HLSEvent.ON_CAPTION, _onCaptionHandler);
+          _hls.addEventListener(HLSEvent.CAPTION_DEMUX, _onCaptionDemuxHandler);
         }
 
         private function _completeHandler(event:HLSEvent):void {
@@ -197,28 +196,25 @@ package com.videojs.providers{
           var captionData:Object = event.captionData;
 
           var data: ByteArray = Base64.decode(captionData.data);
+          var userData: ByteArray = new ByteArray();
+          data.position = 4; // uint length used for onCaptionInfo event
+          data.readBytes(userData);
 
-          var s: String = '';
-          for (var i:uint=0;i<data.length;i++) {
-            s += ("0"+data[i].toString(16)).substr(-2,2);
-            if (i<data.length-1) s+=":";
-          }
-          Log.info("HLSProvider: byteArray: " + captionData.type + ": " + s);
+          // _captions.push(captionData.type, userData);
+        }
 
-          var sei: ByteArray = new ByteArray();
-          data.position = 4; // uint length used for onCaptionInfo event // + num ccs byte + em_data byte
-          data.readBytes(sei);
-          s = '';
-          for (i=0;i<sei.length;i++) {
-            s += ("0"+sei[i].toString(16)).substr(-2,2);
-            if (i<data.length-1) s+=":";
-          }
-          Log.info("HLSProvider: sei len: " + sei.length + ", " + s);
-          var captions: Captions = new Captions(captionData.type, sei);
+        private function _onCaptionDemuxHandler(event:HLSEvent):void {
+          var captionData:Object = event.captionData;
 
-          if (captions.displayed.join('').length) {
-            Log.info('CC: ' + captions.displayed.join(''));
-          }
+          var data: ByteArray = Base64.decode(captionData.data);
+          var userData: ByteArray = new ByteArray();
+          data.position = 4; // uint length used for onCaptionInfo event
+          data.readBytes(userData);
+
+          _model.broadcastEventExternally(ExternalEventName.ON_CAPTION_DEMUX, {
+            pts: captionData.pts,
+            userData: Base64.encode(userData)
+          });
         }
 
         private function _onFrame(event:Event):void
