@@ -239,7 +239,7 @@ package com.videojs.providers{
          * Should return a value that indicates the current playhead position, in seconds.
          */
         public function get time():Number {
-          return _position;
+          return _hls.liveSlidingMain ? _hls.liveSlidingMain + _position : _position;
         }
 
         /**
@@ -285,7 +285,9 @@ package com.videojs.providers{
          */
         public function get buffered():Array{
             if(_bufferedTime) {
-                return [[ _backBufferedTime, _bufferedTime]];
+                return _hls.liveSlidingMain ?
+                    [[ _hls.liveSlidingMain + _backBufferedTime, _hls.liveSlidingMain + _bufferedTime ]] :
+                    [[ _backBufferedTime, _bufferedTime ]];
             }
             return [];
         }
